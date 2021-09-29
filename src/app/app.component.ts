@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, NgZone} from '@angular/core';
 
 declare let FS: any;
 
@@ -9,6 +9,8 @@ declare let FS: any;
 })
 
 export class AppComponent {
+
+  constructor(private _ngZone: NgZone) {}
 
   onClickIdentifyA() {
     FS.identify('testA', {
@@ -23,10 +25,10 @@ export class AppComponent {
   }
 
   onClickRestart() {
-    FS.restart();
+    this._ngZone.runOutsideAngular(() => { FS.restart() });
   }
 
   onClickShutdown() {
-    FS.shutdown();
+    this._ngZone.runOutsideAngular(() => { FS.shutdown() });
   }
 }
